@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { ChildrenProps, Quote } from "../../types";
+import { ChildrenProps, Quote } from "../../../types";
 import {
   getAllQuotes,
   getQuotesByCategory,
@@ -9,7 +9,7 @@ import {
   deleteFavorite,
 } from "../db-actions";
 
-type QuotesContextType = {
+export type QuotesContextType = {
   activeQuotes: Quote[] | [];
   favoriteQuotes: Quote[] | [];
   getQuotes: () => void;

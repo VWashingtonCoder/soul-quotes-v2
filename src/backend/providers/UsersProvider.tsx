@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
-import { ChildrenProps, User } from "../../types";
+import { ChildrenProps, User } from "../../../types";
 import { getAllUsers, getUserById, addUser } from "../db-actions";
 
-type UsersContextType = {
+export type UsersContextType = {
     activeUser: User | null;
     getUser: (id: string) => void;
     addNewUser: (user: User) => void;
