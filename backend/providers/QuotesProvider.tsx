@@ -1,12 +1,22 @@
 import React, { createContext, useEffect, useState } from "react";
 import { ChildrenProps, Quote } from "../../types";
-import { getAllQuotes, getQuotesByCategory, getFavoritesByUser } from "../db-actions";
+import {
+  getAllQuotes,
+  getQuotesByCategory,
+  getFavoritesByUser,
+  getAllFavorites,
+  addFavorite,
+  deleteFavorite,
+} from "../db-actions";
 
 type QuotesContextType = {
   activeQuotes: Quote[] | [];
   favoriteQuotes: Quote[] | [];
   getQuotes: () => void;
   getCategoryQuotes: (category: string) => void;
+  getFavoriteQuotes: (userId: string) => void;
+  addFavoriteQuote: (userId: string, quoteId: string) => void;
+  deleteFavoriteQuote: (id: number) => void;
 };
 
 export const QuotesContext = createContext({} as QuotesContextType);
@@ -27,13 +37,30 @@ export const QuotesProvider = ({ children }: ChildrenProps) => {
     setActiveQuotes(categoryQuotes);
   };
 
-  const getFavorites = async (userId: string) => {
+  const getFavoriteQuotes = async (userId: string) => {
     const favorites = await getFavoritesByUser(userId);
     const favoriteQuoteIds = favorites.map((favorite) => favorite.qId);
     const favoriteQuotes = allQuotes.filter((quote) =>
-        favoriteQuoteIds.includes(quote.quoteId)
+      favoriteQuoteIds.includes(quote.quoteId)
     );
     setFavoriteQuotes(favoriteQuotes);
+  };
+
+  const addFavoriteQuote = async (userId: string, quoteId: string) => {
+    const allFavorites = await getAllFavorites();
+    const { id } = allFavorites[allFavorites.length - 1];
+    const newFavorite = {
+      id: id + 1,
+      uId: userId,
+      qId: quoteId,
+    };
+    addFavorite(newFavorite);
+    alert("Quote added to favorites!");
+  };
+
+  const deleteFavoriteQuote = async (id: number) => {
+    deleteFavorite(id);
+    alert("Quote removed from favorites!");
   };
 
   useEffect(() => {
@@ -45,7 +72,9 @@ export const QuotesProvider = ({ children }: ChildrenProps) => {
     favoriteQuotes,
     getQuotes,
     getCategoryQuotes,
-    getFavorites,
+    getFavoriteQuotes, 
+    addFavoriteQuote,
+    deleteFavoriteQuote
   };
 
   return (
