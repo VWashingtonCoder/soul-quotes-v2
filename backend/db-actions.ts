@@ -1,6 +1,7 @@
 import { Favorite, User } from '../types';
 const BASE_URL = 'http://localhost:3000';
 
+// Quotes
 export const getAllQuotes = async () => {
     const response = await fetch(`${BASE_URL}/quotes`);
     return await response.json();
@@ -16,8 +17,9 @@ export const getAllUsers = async () => {
     return await response.json();
 }
 
-    const response = await fetch(`${BASE_URL}/usersexport const getUserByEmail = async (email: string) => {
-?email=${email}`);
+// Users
+export const getUserByEmail = async (email: string) => {
+    const response = await fetch(`${BASE_URL}/users?email=${email}`);
     return await response.json();
 }
 
@@ -29,6 +31,12 @@ export const addUser = async (user: User) => {
         },
         body: JSON.stringify(user)
     });
+    return await response.json();
+}
+
+// Favorites
+export const getAllFavorites = async () => {
+    const response = await fetch(`${BASE_URL}/favorites`);
     return await response.json();
 }
 
