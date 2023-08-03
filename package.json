@@ -12,12 +12,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/faker": "^6.6.9",
-    "faker": "^6.6.6",
+    "fs": "^0.0.1-security",
     "json-server": "^0.17.3",
-    "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
-    "lowdb": "^6.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
