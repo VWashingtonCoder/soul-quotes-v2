@@ -8,8 +8,9 @@ function App() {
   console.log(page)
   return (
     <>
-      <h1>Quotes App</h1>
-      <Navbar page={page} changePage={setPage}/>
+      <header className='app-header'>
+        <Navbar page={page} changePage={setPage}/>
+      </header>
     </>
   )
 }
