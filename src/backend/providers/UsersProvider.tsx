@@ -1,20 +1,28 @@
 import React, { createContext, useEffect, useState } from "react";
 import { ChildrenProps, User } from "../../../types";
-import { getAllUsers, getUserById, addUser } from "../db-actions";
+import { getAllUsers, getUserByEmail, addUser } from "../db-actions";
 
 export type UsersContextType = {
     activeUser: User | null;
     getUser: (id: string) => void;
     addNewUser: (user: User) => void;
+    removeActiveUser: () => void;
 };
 
 export const UsersContext = createContext({} as UsersContextType);
 
-export const UsersProvider = ({ children }: ChildrenProps) => {
-    const [activeUser, setActiveUser] = useState(null as User | null);
+const testUser: User = {
+    userId: "testUser1",
+    username: "testUser1",
+    email: "tu1@ex.com",
+    password: "Password1",
+}
 
-    const getUser = async (id: string) => {
-        const user = await getUserById(id);
+export const UsersProvider = ({ children }: ChildrenProps) => {
+    const [activeUser, setActiveUser] = useState(testUser as User | null);
+
+    const getUser = async (email: string) => {
+        const user = await getUserByEmail(email);
         if (!user) {
             alert("User not found!");
             return;
@@ -26,8 +34,12 @@ export const UsersProvider = ({ children }: ChildrenProps) => {
         alert("User added!");
     };
 
+    const removeActiveUser = () => {
+        setActiveUser(null);
+    };
+
     return (
-        <UsersContext.Provider value={{ activeUser, getUser, addNewUser }}>
+        <UsersContext.Provider value={{ activeUser, getUser, addNewUser, removeActiveUser }}>
             {children}
         </UsersContext.Provider>
     );
