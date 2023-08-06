@@ -2,15 +2,18 @@ import React, { createContext, useEffect, useState } from "react";
 import { ChildrenProps, Favorite, Quote } from "../../../types";
 import {
   getAllQuotes,
-  // getFavoritesByUser,
+  getFavoritesByUser,
   // getAllFavorites,
   // addFavorite,
   // deleteFavorite,
 } from "../db-actions";
+import { checkForLocalUser } from "../../helpers";
 
 export type QuotesContextType = {
   allQuotes: Quote[] | [];
-  // favoriteQuotes: Quote[] | [];
+  favoriteQuoteIds: string[] | [];
+  getUserFavorites: (userId: string) => void;
+  getCategoryQuotes: (category: string) => Quote[];
   // getQuotes: () => void;
   // getCategoryQuotes: (category: string) => void;
   // getFavoriteQuotes: (userId: string) => void;
@@ -22,46 +25,47 @@ export const QuotesContext = createContext({} as QuotesContextType);
 
 export const QuotesProvider = ({ children }: ChildrenProps) => {
   const [allQuotes, setAllQuotes] = useState([] as Quote[]);
-  const [favoriteQuotes, setFavoriteQuotes] = useState([] as Quote[]);
-
-  const getQuotes = async () => {
-    const allQuotes = await getAllQuotes();
-    setAllQuotes(allQuotes);
+  const [favoriteQuoteIds, setFavoriteQuoteIds] = useState([] as string[]);
+  const errorMessage = 'Oh No😦! We hit an error. Please try again later.';
+  
+  const getQuotes = () => {
+    getAllQuotes()
+      .then(quotes => {
+        setAllQuotes(quotes);
+      })
+      .catch(err => {
+        console.log(err);
+        alert(errorMessage);
+      })
   };
 
-  // const getFavoriteQuotes = async (userId: string) => {
-  //   const favorites = await getFavoritesByUser(userId);
-  //   const favoriteQuoteIds = favorites.map((favorite: Favorite) => favorite.qId);
-  //   const favoriteQuotes = allQuotes.filter((quote) =>
-  //     favoriteQuoteIds.includes(quote.quoteId)
-  //   );
-  //   setFavoriteQuotes(favoriteQuotes);
-  // };
-
-  // const addFavoriteQuote = async (userId: string, quoteId: string) => {
-  //   const allFavorites = await getAllFavorites();
-  //   const { id } = allFavorites[allFavorites.length - 1];
-  //   const newFavorite = {
-  //     id: id + 1,
-  //     uId: userId,
-  //     qId: quoteId
-  //   };
-  //   addFavorite(newFavorite);
-  //   alert("Quote added to favorites!");
-  // };
-
-  // const deleteFavoriteQuote = async (id: number) => {
-  //   deleteFavorite(id);
-  //   alert("Quote removed from favorites!");
-  // };
+  const getUserFavorites = (userId: string) => {
+    getFavoritesByUser(userId)
+      .then(favorites => {
+        const quoteIds = favorites.map((fav: Favorite) => fav.qId);
+        setFavoriteQuoteIds(quoteIds);
+      })
+      .catch(err => {
+        console.log(err);
+        alert(errorMessage);
+      })
+  }
 
   useEffect(() => {
     getQuotes();
+    const localUser = checkForLocalUser();
+    if (localUser) 
+      getFavoritesByUser(localUser.userId);
   }, []);
+
+  useEffect(() => {
+    
+  }, [])
 
   const providerValue = {
     allQuotes,
-    // favoriteQuotes,
+    favoriteQuoteIds,
+    getUserFavorites,
     // getQuotes,
     // getCategoryQuotes,
     // getFavoriteQuotes, 

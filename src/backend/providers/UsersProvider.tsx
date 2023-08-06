@@ -1,9 +1,11 @@
 import React, { createContext, useEffect, useState } from "react";
 import { ChildrenProps, User } from "../../../types";
 import { getAllUsers, getUserByEmail, addUser } from "../db-actions";
+import { checkForLocalUser } from "../../helpers";
+
 
 export type UsersContextType = {
-    activeUser: User | null;
+    activeUser: User;
     getUser: (id: string) => void;
     addNewUser: (user: User) => void;
     removeActiveUser: () => void;
@@ -12,14 +14,22 @@ export type UsersContextType = {
 export const UsersContext = createContext({} as UsersContextType);
 
 const testUser: User = {
-    userId: "testUser1",
-    username: "testUser1",
-    email: "tu1@ex.com",
-    password: "Password1",
+    userId: "testUser3",
+    username: "testUser3",
+    email: "tu3@ex.com",
+    password: "Password3",
 }
 
+const noUser: User = {
+    userId: "",
+    username: "",
+    email: "",
+    password: ""
+}
+
+
 export const UsersProvider = ({ children }: ChildrenProps) => {
-    const [activeUser, setActiveUser] = useState(testUser as User | null);
+    const [activeUser, setActiveUser] = useState(testUser as User);
 
     const getUser = async (email: string) => {
         const user = await getUserByEmail(email);
@@ -35,8 +45,12 @@ export const UsersProvider = ({ children }: ChildrenProps) => {
     };
 
     const removeActiveUser = () => {
-        setActiveUser(null);
+        setActiveUser(noUser);
     };
+
+    useEffect(() => {
+        const localUser = checkForLocalUser();
+    }, [])
 
     return (
         <UsersContext.Provider value={{ activeUser, getUser, addNewUser, removeActiveUser }}>

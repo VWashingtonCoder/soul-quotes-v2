@@ -1,6 +1,7 @@
 import { Favorite, User } from '../../types';
 const BASE_URL = 'http://localhost:3000';
 
+
 // Quotes
 export const getAllQuotes = async () => {
     const response = await fetch(`${BASE_URL}/quotes`);

@@ -2,6 +2,9 @@ import { useState } from "react";
 import "./App.css";
 import Navbar from "./front-end/components/Navbar";
 import Home from "./front-end/pages/Home/Home";
+import { useQuotesContext, useUsersContext } from "./backend/custom-hooks";
+
+
 
 function App() {
   const [page, setPage] = useState("home");
