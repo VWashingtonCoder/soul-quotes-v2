@@ -150,3 +150,6 @@ body {
   background-size: cover;
   height: 100vh;
 }
+img {
+  width: 100%;
+}

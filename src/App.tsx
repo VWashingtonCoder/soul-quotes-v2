@@ -5,11 +5,11 @@ import Navbar from "./frontend/components/Navbar";
 function App() {
   const [pageView, setPageView] = useState("home"); 
   
+  console.log(pageView);
+
   return (
     <>
-      <header>
         <Navbar page={pageView} changePage={setPageView} />
-      </header>
     </>
   )
 }

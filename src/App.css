@@ -5,4 +5,38 @@
   text-align: center;
 }
 
+.flex-between-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+/*Navbar*/
+.navbar {
+  padding: 0 0 1rem;
+}
+
+.navbar .logo-box {
+  max-width: 600px;
+  position: relative;
+  right: 15%;
+}
+
+.navbar .logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: whitesmoke;
+}
+
+.nav-links {
+  width: 55%;
+}
+
+.nav-btn {
+  background: transparent;
+  color: whitesmoke;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 2rem;
+}
