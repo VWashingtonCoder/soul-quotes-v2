@@ -5,8 +5,6 @@ import HomePage from "./frontend/pages/HomePage/HomePage";
 
 function App() {
   const [pageView, setPageView] = useState("home"); 
-  
-  console.log(pageView);
 
   return (
     <>
