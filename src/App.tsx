@@ -1,5 +1,4 @@
 import "./App.css";
-import { useUsers, useFavorites, useQuotes } from "./backend/context-hooks.ts";
 
 function App() {
   return (

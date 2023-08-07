@@ -5,16 +5,18 @@ import { writeFileSync } from "fs";
 const initDB = {
     "users": [
         {
-            "userId": "admin-1",
+            "id": 1,
             "username": "admin-1",
             "email": "admin1@localhost.com",
-            "password": "admin"
+            "password": "admin",
+            "favorites": []
         },
         {
-            "userId": "testUser3",
+            "id": 2,
             "username": "testUser3",
             "email": "tu3@ex.co",
-            "password": "Password3"
+            "password": "Password3",
+            "favorites": ["funny-10", "philosophy-10", "funny-1", "funny-4", "funny-16"]
         }
     ],
     "quotes": [
@@ -317,33 +319,6 @@ const initDB = {
             "quote": "I think God, in creating man, somewhat overestimated his ability.",
             "author": "Oscar Wilde",
             "category": "funny"
-        }
-    ],
-    "favorites": [
-        {
-            "id": 1,
-            "uId": "testUser3",
-            "qId": "funny-10"
-        },
-        {
-            "id": 2,
-            "uId": "testUser3",
-            "qId": "philosophy-10"
-        },
-        {
-            "id": 3,
-            "uId": "testUser3",
-            "qId": "funny-1"
-        },
-        {
-            "id": 4,
-            "uId": "testUser3",
-            "qId": "funny-4"
-        },
-        {
-            "id": 5,
-            "uId": "testUser3",
-            "qId": "funny-16"
         }
     ]
 }
