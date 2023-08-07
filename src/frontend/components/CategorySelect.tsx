@@ -1,6 +1,6 @@
 type SelectProps = {
   label: string;
-  btnClick: () => void;
+  btnClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
