@@ -12,12 +12,12 @@ export const getQuotesByCategory = async (category: string) => {
     return await response.json();
 }
 
+// Users
 export const getAllUsers = async () => {
     const response = await fetch(`${BASE_URL}/users`);
     return await response.json();
 }
 
-// Users
 export const getUserByEmail = async (email: string) => {
     const response = await fetch(`${BASE_URL}/users?email=${email}`);
     return await response.json();

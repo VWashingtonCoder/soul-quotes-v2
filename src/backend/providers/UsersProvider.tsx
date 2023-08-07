@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 import { ChildrenProps, User } from "../../types";
-import { getAllUsers, getUserById, addUser } from "../db-actions";
+import { getAllUsers, getUserByEmail, addUser } from "../db-actions";
 
-type UsersContextType = {
+export type UsersContextType = {
     activeUser: User | null;
     getUser: (id: string) => void;
     addNewUser: (user: User) => void;
@@ -10,15 +10,18 @@ type UsersContextType = {
 
 export const UsersContext = createContext({} as UsersContextType);
 
+const defaultUser = {
+    userId: "",
+    username: "",
+    email: "",
+    password: "",
+};
+
 export const UsersProvider = ({ children }: ChildrenProps) => {
-    const [activeUser, setActiveUser] = useState(null as User | null);
+    const [activeUser, setActiveUser] = useState(defaultUser as User);
 
     const getUser = async (id: string) => {
-        const user = await getUserById(id);
-        if (!user) {
-            alert("User not found!");
-            return;
-        } else setActiveUser(user);
+        
     };
 
     const addNewUser = async (user: User) => {
