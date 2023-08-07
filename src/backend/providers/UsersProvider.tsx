@@ -27,7 +27,7 @@ const testUser = {
 };
 
 export const UsersProvider = ({ children }: ChildrenProps) => {
-  const [activeUser, setActiveUser] = useState(defaultUser as User);
+  const [activeUser, setActiveUser] = useState(testUser as User);
   const [userFavorites, setUserFavorites] = useState([] as string[]);
 
   const getUser = async (id: string) => {};

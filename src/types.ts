@@ -12,10 +12,11 @@ export type Quote = {
 };
 
 export type User = {
-  ["userId"]: string;
+  ["id"]: number;
   username: string;
   email: string;
   password: string;
+  favorites: string[];
 };
 
 export type ChildrenProps = {

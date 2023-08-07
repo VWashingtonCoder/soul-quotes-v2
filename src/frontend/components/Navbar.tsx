@@ -14,8 +14,7 @@ const navLinks = [
   ];
 
 const Navbar = ({ page, changePage }: NavbarProps) => {
-    const {activeUser} = useUsers();
-    const { userId } = activeUser;
+    const { username } = useUsers().activeUser;
 
     return (
         <header className="navbar flex-between-center">
@@ -30,7 +29,7 @@ const Navbar = ({ page, changePage }: NavbarProps) => {
             <nav className="nav-links flex-between-center">
                 {navLinks.map((link) => {
                     const {key} = link;
-                    const btnText = key === "account" && userId ? "Logout" : link.text;
+                    const btnText = key === "account" && username ? "Logout" : link.text;
                     
                     return (
                         <button

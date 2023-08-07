@@ -1,6 +1,6 @@
 type SelectProps = {
   label: string;
-  btnClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  btnClick: () => void;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
@@ -25,7 +25,13 @@ const CategorySelect = ({ label, btnClick, value, onChange }: SelectProps) => {
           </option>
         ))}
       </select>
-      <button className="search-btn" onClick={btnClick}>
+      <button 
+        className="search-btn" 
+        onClick={(e) => {
+          e.preventDefault();
+          btnClick();
+        }}
+      >
         Search
       </button>
     </div>
