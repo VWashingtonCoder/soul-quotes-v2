@@ -1,9 +1,15 @@
+import { useState } from "react";
 import "./App.css";
+import Navbar from "./frontend/components/Navbar";
 
 function App() {
+  const [pageView, setPageView] = useState("home"); 
+  
   return (
     <>
-      <h1>Soul Quotes App</h1>
+      <header>
+        <Navbar page={pageView} changePage={setPageView} />
+      </header>
     </>
   )
 }
