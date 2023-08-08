@@ -6,7 +6,9 @@ import QuoteCard from "../../components/QuoteCard";
 
 function HomePage() {
   const { homeQuotes, getCategoryQuotes, changeOneHomeQuote } = useQuotes();
-  const { username, favorites } = useUsers().activeUser;
+  const { activeUser, addToFavorites, removeFromFavorites } = useUsers();
+  const { username, favorites } = activeUser;
+  console.log(favorites);
   const [searchCategory, setSearchCategory] = useState("all");
 
   const searchQuotes = () => {
@@ -15,6 +17,16 @@ function HomePage() {
 
   const changeOneQuote = (idx: number) => {
     changeOneHomeQuote(idx);
+  };
+
+  const toggleFavorite = (favoriteStatus: boolean, idx: number) => {
+    if (!favoriteStatus) {
+      addToFavorites(homeQuotes[idx].quoteId);
+      // alert("Quote added to favorites!");
+    } else {
+      removeFromFavorites(homeQuotes[idx].quoteId);
+      // alert("Quote removed from favorites!");
+    }
   };
 
   return (
@@ -44,6 +56,7 @@ function HomePage() {
               isFavorite={isFavorite}
               isUser={isUser}
               changeOne={changeOneQuote}
+              toggleFavorite={toggleFavorite}
             />
           );
         })}

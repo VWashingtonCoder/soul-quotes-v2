@@ -8,10 +8,12 @@ type QuoteCardProps = {
   isFavorite: boolean;
   isUser: boolean;
   changeOne: (idx: number) => void;
+  toggleFavorite: (favoriteStatus: boolean, idx: number) => void;
 };
 
 const QuoteCard = (props: QuoteCardProps) => {
-  const { cardData, idx, isFavorite, isUser, changeOne } = props;
+  const { cardData, idx, isFavorite, isUser, changeOne, toggleFavorite } =
+    props;
   const { quote, author, category } = cardData;
 
   return (
@@ -28,7 +30,13 @@ const QuoteCard = (props: QuoteCardProps) => {
         </button>
         <h2 className="card-category">{category}</h2>
         {isUser && (
-          <button className="card-btn">
+          <button
+            className="card-btn"
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              toggleFavorite(isFavorite, idx);
+            }}
+          >
             {isFavorite ? (
               <MdFavorite className="icon favorite" />
             ) : (

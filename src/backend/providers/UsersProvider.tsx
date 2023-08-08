@@ -1,21 +1,24 @@
 import React, { createContext, useEffect, useState } from "react";
 import { ChildrenProps, User } from "../../types";
-import { getAllUsers, getUserByEmail, addUser } from "../db-actions";
+import { getUserById, getUserByEmail, updateFavorites } from "../db-actions";
 
 export type UsersContextType = {
   activeUser: User;
   userFavorites: string[];
   getUser: (id: string) => void;
   addNewUser: (user: User) => void;
+  addToFavorites: (quoteId: string) => void;
+  removeFromFavorites: (quoteId: string) => void;
 };
 
 export const UsersContext = createContext({} as UsersContextType);
 
 const defaultUser = {
-  userId: "",
+  id: 0,
   username: "",
   email: "",
   password: "",
+  favorites: [],
 };
 
 const testUser = {
@@ -28,17 +31,40 @@ const testUser = {
 
 export const UsersProvider = ({ children }: ChildrenProps) => {
   const [activeUser, setActiveUser] = useState(testUser as User);
-  const [userFavorites, setUserFavorites] = useState([] as string[]);
+  const { favorites } = activeUser;
 
-  const getUser = async (id: string) => {};
+  const refreshUser = () => {};
 
-  const addNewUser = async (user: User) => {
-    await addUser(user);
-    alert("User added!");
+  const getUser = async (email: string) => {
+    const user = await getUserByEmail(email);
+    console.log(user);
+    setActiveUser(user);
+  };
+
+  const addToFavorites = (quoteId: string) => {
+    console.log(quoteId);
+    const newFavorites = [...favorites, quoteId];
+    updateFavorites(newFavorites, activeUser.id).then((user: User) => {
+      setActiveUser(user);
+    });
+  };
+
+  const removeFromFavorites = (quoteId: string) => {
+    const newFavorites = favorites.filter((favorite) => favorite !== quoteId);
+    updateFavorites(newFavorites, activeUser.id).then((user: User) => {
+      setActiveUser(user);
+    });
+  };
+
+  const providerValue = {
+    activeUser,
+    getUser,
+    addToFavorites,
+    removeFromFavorites,
   };
 
   return (
-    <UsersContext.Provider value={{ activeUser, getUser, addNewUser }}>
+    <UsersContext.Provider value={providerValue}>
       {children}
     </UsersContext.Provider>
   );
