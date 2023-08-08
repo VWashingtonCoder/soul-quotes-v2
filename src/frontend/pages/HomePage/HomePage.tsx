@@ -19,11 +19,8 @@ function HomePage() {
   };
 
   const toggleFavorite = (favoriteStatus: boolean, idx: number) => {
-    if (!favoriteStatus) 
-      addToFavorites(homeQuotes[idx].quoteId);
-    else 
-      removeFromFavorites(homeQuotes[idx].quoteId);
-      
+    if (!favoriteStatus) addToFavorites(homeQuotes[idx].quoteId);
+    else removeFromFavorites(homeQuotes[idx].quoteId);
   };
 
   return (
