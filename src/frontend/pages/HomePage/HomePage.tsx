@@ -8,7 +8,6 @@ function HomePage() {
   const { homeQuotes, getCategoryQuotes, changeOneHomeQuote } = useQuotes();
   const { activeUser, addToFavorites, removeFromFavorites } = useUsers();
   const { username, favorites } = activeUser;
-  console.log(favorites);
   const [searchCategory, setSearchCategory] = useState("all");
 
   const searchQuotes = () => {
@@ -20,13 +19,11 @@ function HomePage() {
   };
 
   const toggleFavorite = (favoriteStatus: boolean, idx: number) => {
-    if (!favoriteStatus) {
+    if (!favoriteStatus) 
       addToFavorites(homeQuotes[idx].quoteId);
-      // alert("Quote added to favorites!");
-    } else {
+    else 
       removeFromFavorites(homeQuotes[idx].quoteId);
-      // alert("Quote removed from favorites!");
-    }
+      
   };
 
   return (

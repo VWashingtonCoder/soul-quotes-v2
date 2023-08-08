@@ -16,9 +16,9 @@ const categories = [
 
 const CategorySelect = ({ label, btnClick, value, onChange }: SelectProps) => {
   return (
-    <div>
-      <label htmlFor="category">{label}</label>
-      <select name="category" id="category" value={value} onChange={onChange}>
+    <div className="category-search">
+      <label className="category-label" htmlFor="category">{label}</label>
+      <select className="category-select" id="category" value={value} onChange={onChange}>
         {categories.map((category) => (
           <option key={category.key} value={category.key}>
             {category.label}
