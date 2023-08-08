@@ -8,7 +8,7 @@ type NavbarProps = {
 
 const navLinks = [
     { key: "home", text: "Home" },
-    { key: "account", text: "Account" },
+    { key: "accounts", text: "Account" },
     { key: "favorites", text: "Favorites" },
     { key: "create", text: "Create" },
   ];
