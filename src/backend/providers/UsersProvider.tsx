@@ -1,14 +1,20 @@
 import React, { createContext, useEffect, useState } from "react";
-import { ChildrenProps, User } from "../../types";
-import { getUserById, getUserByEmail, updateFavorites } from "../db-actions";
+import { ChildrenProps, FormValues, User } from "../../types";
+import { getAllUsers, getUserByEmail, updateFavorites } from "../db-actions";
 
 export type UsersContextType = {
+  allUsers: User[];
   activeUser: User;
   userFavorites: string[];
-  getUser: (id: string) => void;
-  addNewUser: (user: User) => void;
+  addUser: (userInfo: UserInformation) => void;
   addToFavorites: (quoteId: string) => void;
   removeFromFavorites: (quoteId: string) => void;
+};
+
+type UserInformation = {
+  username: string;
+  email: string;
+  password: string;
 };
 
 export const UsersContext = createContext({} as UsersContextType);
@@ -21,25 +27,50 @@ const defaultUser = {
   favorites: [],
 };
 
-const testUser = {
-  id: 2,
-  username: "testUser3",
-  email: "tu3@ex.co",
-  password: "Password3",
-  favorites: ["funny-10", "philosophy-10", "funny-1", "funny-4", "funny-16"],
-};
-
 export const UsersProvider = ({ children }: ChildrenProps) => {
+  const [allUsers, setAllUsers] = useState([] as User[]);
   const [activeUser, setActiveUser] = useState(defaultUser as User);
   const { favorites } = activeUser;
 
-  const refreshUser = () => {};
-
-  const getUser = async (email: string) => {
-    const user = await getUserByEmail(email);
-    console.log(user);
-    setActiveUser(user);
+  const checkForLocalUser = () => {
+    const localUser = localStorage.getItem("activeUser");
+    if (localUser) 
+      setActiveUser(JSON.parse(localUser));
   };
+
+  const getUsers = async () => {
+    const users = await getAllUsers();
+    setAllUsers(users);
+  };
+
+  const loginUser = (user: User) => {
+    setActiveUser(user);
+    localStorage.setItem("activeUser", JSON.stringify(user));
+  };
+
+  const addUser = async (userInfo: UserInformation) => {
+    const { username, email, password } = userInfo;
+    const newUser: User = {
+      id: allUsers.length + 1,
+      username,
+      email,
+      password,
+      favorites: [],
+    };
+
+    addNewUser(newUser)
+      .then(() => {
+        getUsers();
+        loginUser(newUser);
+        return true;
+      })
+      .catch((err) => {
+        console.log(err);
+        return false;
+      })
+  };
+
+  
 
   const addToFavorites = (quoteId: string) => {
     console.log(quoteId);
@@ -56,9 +87,15 @@ export const UsersProvider = ({ children }: ChildrenProps) => {
     });
   };
 
+  useEffect(() => {
+    getUsers();
+    checkForLocalUser();
+  }, []);
+
   const providerValue = {
+    allUsers,
     activeUser,
-    getUser,
+    addUser,
     addToFavorites,
     removeFromFavorites,
   };

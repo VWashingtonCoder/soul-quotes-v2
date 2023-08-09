@@ -1,11 +1,5 @@
-export interface Favorite {
-  ["id"]: number;
-  uId: string;
-  qId: string;
-}
-
 export interface Quote {
-  ["quoteId"]: string;
+  [quoteId: string]: string;
   quote: string;
   author: string;
   category: string;

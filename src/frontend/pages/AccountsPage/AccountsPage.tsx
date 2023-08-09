@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./AccountsPage.css";
 import AccountForm from "../../components/AccountForm";
 import { FormValues, FormErrors } from "../../../types";
+import { validateFormValues, checkForExistingUser } from "../../../validators";
+import { useUsers } from "../../../backend/context-hooks";
 
 const initFormStates = {
   join: {
@@ -16,27 +18,16 @@ const initFormStates = {
   },
 };
 
-const testJoinErrors = {
-  username: "Username is required",
-  email: "Email is required",
-  password: "Password is required",
-  passwordConfirm: "Password confirmation is required",
-};
-
-const testLoginErrors = {
-  username: "Username is required",
-  password: "Password is required",
-};
-
 function AccountsPage() {
+  const {  addUser } = useUsers();
   const [accountView, setAccountView] = useState("join");
   const [joinForm, setJoinForm] = useState(initFormStates.join as FormValues);
-  const [joinErrors, setJoinErrors] = useState(testJoinErrors as FormErrors); // init: {}
+  const [joinErrors, setJoinErrors] = useState({} as FormErrors);
   const [showJoinPW, setShowJoinPW] = useState(false);
   const [loginForm, setLoginForm] = useState(
     initFormStates.login as FormValues
   );
-  const [loginErrors, setLoginErrors] = useState(testLoginErrors as FormErrors); // init: {}
+  const [loginErrors, setLoginErrors] = useState({} as FormErrors); 
   const [showLoginPW, setShowLoginPW] = useState(false);
 
   const toggleShowPassword = (showPW: boolean) => {
@@ -58,6 +49,37 @@ function AccountsPage() {
       });
     }
   };
+
+  const checkJoinForm = () => {
+    let errors = validateFormValues(joinForm);
+
+    if(Object.keys(errors).length === 0) {
+      const { username, email } = joinForm;
+      errors = checkForExistingUser(username, email);
+      
+      if(Object.keys(errors).length === 0) {
+        console.log("No errors");
+      }
+    }
+
+    setJoinErrors(errors);
+  };
+
+  const checkLoginForm = () => {
+    const errors = validateFormValues(loginForm);
+    setLoginErrors(errors);
+  };
+  
+    
+  const submitForm = () => {
+    if (accountView === "join") {
+      checkJoinForm();
+    } else if (accountView === "login") {
+      checkLoginForm();
+    }
+  }
+    
+    
 
   return (
     <section className="page accounts">
@@ -83,6 +105,7 @@ function AccountsPage() {
           showPW={showJoinPW}
           updateValues={updateFormValues}
           togglePW={toggleShowPassword}
+          submitForm={submitForm}
         />
       ) : (
         <AccountForm
@@ -92,6 +115,7 @@ function AccountsPage() {
           showPW={showLoginPW}
           updateValues={updateFormValues}
           togglePW={toggleShowPassword}
+          submitForm={submitForm}
         />
       )}
     </section>

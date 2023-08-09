@@ -5,7 +5,7 @@ import HomePage from "./frontend/pages/HomePage/HomePage";
 import AccountsPage from "./frontend/pages/AccountsPage/AccountsPage";
 
 function App() {
-  const [pageView, setPageView] = useState("home");
+  const [pageView, setPageView] = useState("accounts");
 
   return (
     <>

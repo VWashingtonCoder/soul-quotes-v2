@@ -37,9 +37,11 @@
   background-color: #1e90ff;
 }
 
-.icon {
-  cursor: none;
+.submit-btn:disabled {
+  cursor: not-allowed;
+  background-color: #ccc;
 }
+
 
 /*Navbar*/
 .navbar {

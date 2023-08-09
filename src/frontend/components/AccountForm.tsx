@@ -6,6 +6,7 @@ type AccountFormProps = {
   errors: FormErrors;
   formValues: FormValues;
   showPW: boolean;
+  submitForm: () => void;
   togglePW: (showPW: boolean) => void;
   updateValues: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -58,11 +59,13 @@ const AccountForm = ({
   errors,
   formValues,
   showPW,
+  submitForm,
   togglePW,
   updateValues,
 }: AccountFormProps) => {
   const formTitle =
     view === "join" ? "Join the site!" : "Login to your account!";
+  const formValuesArr = Object.values(formValues); 
   const errorsArr = Object.values(errors);
 
   return (
@@ -87,7 +90,10 @@ const AccountForm = ({
               {name.includes("password") && (
                 <button
                   className="pw-btn clear-btn"
-                  onClick={() => togglePW(showPW)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    togglePW(showPW);
+                  }}
                 >
                   {showPW ? (
                     <AiFillEyeInvisible className="icon hide" />
@@ -117,9 +123,9 @@ const AccountForm = ({
         className="clear-btn submit-btn"
         onClick={(e) => {
           e.preventDefault();
-          console.log("Submitted!");
-          console.log(formValues);
+          submitForm();
         }}
+        // disabled={formValuesArr.includes("")}
       >
         Submit
       </button>

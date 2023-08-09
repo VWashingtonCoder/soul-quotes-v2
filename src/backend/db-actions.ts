@@ -13,8 +13,13 @@ export const getQuotesByCategory = async (category: string) => {
 };
 
 // Users
-export const getUserById = async (id: number) => {
-  const response = await fetch(`${BASE_URL}/users/${id}`);
+export const getAllUsers = async () => {
+  const response = await fetch(`${BASE_URL}/users`);
+  return await response.json();
+};
+
+export const getUserByUsername = async (username: string) => {
+  const response = await fetch(`${BASE_URL}/users?username=${username}`);
   return await response.json();
 };
 
