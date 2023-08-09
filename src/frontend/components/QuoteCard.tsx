@@ -18,8 +18,14 @@ const QuoteCard = (props: QuoteCardProps) => {
 
   return (
     <div className="quote-card">
-      <div className="card-bar flex-between-center">
-        <button
+      <h2 className="card-category">{category}</h2>
+      
+      <div className="card-content">
+        <p className="quote">{quote}</p>
+        <p className="author">- {author}</p>
+      </div>
+      <div className="card-btns">
+      <button
           className="card-btn"
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
@@ -28,7 +34,7 @@ const QuoteCard = (props: QuoteCardProps) => {
         >
           <TfiReload className="icon reload" />
         </button>
-        <h2 className="card-category">{category}</h2>
+        
         {isUser && (
           <button
             className="card-btn"
@@ -44,10 +50,6 @@ const QuoteCard = (props: QuoteCardProps) => {
             )}
           </button>
         )}
-      </div>
-      <div className="card-content">
-        <p className="quote">{quote}</p>
-        <p className="author">- {author}</p>
       </div>
     </div>
   );
