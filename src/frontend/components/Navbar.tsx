@@ -34,7 +34,7 @@ const Navbar = ({ page, changePage }: NavbarProps) => {
                     return (
                         <button
                             key={key}
-                            className={`nav-btn ${page === key ? "active" : ""}`}
+                            className={`clear-btn nav-btn ${page === key ? "active" : ""}`}
                             onClick={() => changePage(key)}
                         >
                             {btnText}

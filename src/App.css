@@ -11,8 +11,39 @@
   align-items: center;
 }
 
+.clear-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.page {
+  margin-top: -2rem;
+}
+
+.submit-btn {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  background-color: blue;
+  color: whitesmoke;
+}
+
+.submit-btn:hover {
+  cursor: pointer;
+  background-color: #1e90ff;
+}
+
+.icon {
+  cursor: none;
+}
+
 /*Navbar*/
 .navbar {
+  margin-top: -1rem;
   padding: 0 0 1rem;
 }
 
@@ -22,21 +53,23 @@
   right: 15%;
 }
 
-.navbar .logo {
-  font-size: 2rem;
-  font-weight: 700;
+.navbar .logo,
+.nav-btn {
   color: whitesmoke;
+  font-size: 2rem;
+}
+
+.navbar .logo {
+  font-weight: 700;
 }
 
 .nav-links {
   width: 55%;
 }
 
-.nav-btn {
-  background: transparent;
-  color: whitesmoke;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-size: 2rem;
+.nav-btn.active {
+  color: blueviolet;
+}
+.nav-btn:hover {
+  color: #1e90ff;
 }

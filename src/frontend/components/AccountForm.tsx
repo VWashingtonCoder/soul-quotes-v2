@@ -1,9 +1,12 @@
 import { FormInputs, FormErrors, FormValues } from "../../types";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
-type AccountProps = {
+type AccountFormProps = {
   view: string;
   errors: FormErrors;
   formValues: FormValues;
+  showPW: boolean;
+  togglePW: (showPW: boolean) => void;
   updateValues: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -54,13 +57,16 @@ const AccountForm = ({
   view,
   errors,
   formValues,
+  showPW,
+  togglePW,
   updateValues,
-}: AccountProps) => {
+}: AccountFormProps) => {
   const formTitle =
     view === "join" ? "Join the site!" : "Login to your account!";
+  const errorsArr = Object.values(errors);
 
   return (
-    <form>
+    <form className="form account">
       <h2 className="form-title">{formTitle}</h2>
 
       <div className="form-input-group">
@@ -69,7 +75,7 @@ const AccountForm = ({
           const key = `${view}-${name}`;
 
           return (
-            <div className="form-group" key={key}>
+            <div className={`form-group ${view}`} key={key}>
               <label htmlFor={name}>{label}</label>
               <input
                 type={type}
@@ -79,16 +85,36 @@ const AccountForm = ({
                 onChange={updateValues}
               />
               {name.includes("password") && (
-                <button className="pw-btn">Show PW</button>
+                <button
+                  className="pw-btn clear-btn"
+                  onClick={() => togglePW(showPW)}
+                >
+                  {showPW ? (
+                    <AiFillEyeInvisible className="icon hide" />
+                  ) : (
+                    <AiFillEye className="icon show" />
+                  )}
+                </button>
               )}
-              {errors[name] && <p className="error">{errors[name]}</p>}
             </div>
           );
         })}
       </div>
 
+      {errorsArr.length > 0 && (
+        <div className="error-box">
+          <ul>
+            {" "}
+            Uh oh😮! Looks like there were some errors:
+            {errorsArr.map((err) => (
+              <li className="error">{err}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <button
-        className="submit-btn"
+        className="clear-btn submit-btn"
         onClick={(e) => {
           e.preventDefault();
           console.log("Submitted!");

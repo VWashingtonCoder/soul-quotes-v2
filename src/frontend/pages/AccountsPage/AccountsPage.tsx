@@ -16,14 +16,33 @@ const initFormStates = {
   },
 };
 
+const testJoinErrors = {
+  username: "Username is required",
+  email: "Email is required",
+  password: "Password is required",
+  passwordConfirm: "Password confirmation is required",
+};
+
+const testLoginErrors = {
+  username: "Username is required",
+  password: "Password is required",
+};
+
 function AccountsPage() {
-  const [accountView, setAccountView] = useState("login");
+  const [accountView, setAccountView] = useState("join");
   const [joinForm, setJoinForm] = useState(initFormStates.join as FormValues);
-  const [joinErrors, setJoinErrors] = useState({} as FormErrors);
+  const [joinErrors, setJoinErrors] = useState(testJoinErrors as FormErrors); // init: {}
+  const [showJoinPW, setShowJoinPW] = useState(false);
   const [loginForm, setLoginForm] = useState(
     initFormStates.login as FormValues
   );
-  const [loginErrors, setLoginErrors] = useState({} as FormErrors);
+  const [loginErrors, setLoginErrors] = useState(testLoginErrors as FormErrors); // init: {}
+  const [showLoginPW, setShowLoginPW] = useState(false);
+
+  const toggleShowPassword = (showPW: boolean) => {
+    if (accountView === "join") setShowJoinPW(!showPW);
+    else if (accountView === "login") setShowLoginPW(!showPW);
+  };
 
   const updateFormValues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,18 +61,17 @@ function AccountsPage() {
 
   return (
     <section className="page accounts">
-      <header className="radio-views">
+      <header className="view-controls">
         {["join", "login"].map((view) => (
-          <>
-            <input
-              type="radio"
-              value={view}
-              name="accountView"
-              onChange={(e) => setAccountView(e.target.value)}
-              checked={accountView === view}
-            />{" "}
+          <button
+            key={`${view}-btn`}
+            className={`clear-btn view-btn ${
+              accountView === view ? "active" : ""
+            }`}
+            onClick={() => setAccountView(view)}
+          >
             {view}
-          </>
+          </button>
         ))}
       </header>
 
@@ -62,14 +80,18 @@ function AccountsPage() {
           view={accountView}
           errors={joinErrors}
           formValues={joinForm}
+          showPW={showJoinPW}
           updateValues={updateFormValues}
+          togglePW={toggleShowPassword}
         />
       ) : (
         <AccountForm
           view={accountView}
           errors={loginErrors}
           formValues={loginForm}
+          showPW={showLoginPW}
           updateValues={updateFormValues}
+          togglePW={toggleShowPassword}
         />
       )}
     </section>
