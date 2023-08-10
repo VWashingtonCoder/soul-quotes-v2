@@ -22,7 +22,10 @@ export function validateFormValues(form: FormValues) {
   const errors: FormErrors = {};
 
   formArray.forEach(([name, value]) => {
-    const key = name === "passwordConfirm" ? "Confirm Password" : name[0].toUpperCase() + name.slice(1);
+    const key =
+      name === "passwordConfirm"
+        ? "Confirm Password"
+        : name[0].toUpperCase() + name.slice(1);
 
     if (!value) errors[name] = `${key} is required`;
     else if (name === "username") {
@@ -38,24 +41,20 @@ export function validateFormValues(form: FormValues) {
           name
         ] = `${key} must be between 8 and 15 characters and contain at least one uppercase letter, one lowercase letter, and one number`;
     } else if (name === "passwordConfirm") {
-      if (value !== form.password)
-        errors[name] = `${key} does not match`;
+      if (value !== form.password) errors[name] = `${key} does not match`;
     }
   });
 
-    return errors;
+  return errors;
 }
 
-export function checkForExistingUser (username: string, email: string) {
-    const errors: FormErrors = {};
-    
-    getUserByUsername(username).then((user) => {
-        if (user) errors.username = "Username already exists";
-    });
-    
-    getUserByEmail(email).then((user) => {
-        if (user) errors.email = "Email already exists";
-    });
-    
-    return errors;
+export async function checkForExistingUser(username: string, email: string) {
+  const errors: FormErrors = {};
+  const userByUsername = await getUserByUsername(username);
+  const userByEmail = await getUserByEmail(email);
+
+  if (userByUsername.length > 0) errors.username = "Username already exists";
+  if (userByEmail.length > 0) errors.email = "Email already exists";
+
+  return errors;
 }

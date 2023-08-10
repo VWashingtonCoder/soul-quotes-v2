@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FormValues, FormErrors } from "../../types";
 import { validateFormValues, checkForExistingUser } from "../../validators";
+import { useUsers } from "../../backend/context-hooks";
 import FormInputBase from "./FormInputBase";
 import FormErrorsBox from "./FormErrorsBox";
 
@@ -37,7 +38,8 @@ const joinInputs = [
   },
 ];
 
-const JoinForm = () => {
+const JoinForm = ({ goHome }: { goHome: () => void }) => {
+  const { addNewUser, checkActiveUser } = useUsers();
   const [formValues, setFormValues] = useState(initJoinForm as FormValues);
   const [formErrors, setFormErrors] = useState({} as FormErrors);
   const [showPassword, setShowPassword] = useState(false);
@@ -47,17 +49,24 @@ const JoinForm = () => {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const submitForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const submitForm = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     let errors = validateFormValues(formValues);
 
     if (Object.keys(errors).length === 0) {
-      const { username, email } = formValues;
-      const userErrors = checkForExistingUser(username, email);
+      const { username, email, password } = formValues;
+      const userErrors = await checkForExistingUser(username, email);
 
-      if (Object.keys(userErrors).length === 0) 
-        console.log("No errors");
-      else errors = userErrors;
+      if (Object.keys(userErrors).length === 0) {
+        const newUserInfo = { username, email, password };
+        addNewUser(newUserInfo);
+        const existingUser = await checkForExistingUser(username, email);
+        if (Object.keys(existingUser).length > 0) {
+          setFormValues(initJoinForm);
+          setShowPassword(false);
+          goHome();
+        } else errors = { general: "Something went wrong. Please try again." };
+      } else errors = userErrors;
     }
 
     setFormErrors(errors);

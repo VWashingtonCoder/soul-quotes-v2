@@ -12,7 +12,7 @@ function App() {
       <Navbar page={pageView} changePage={setPageView} />
 
       {pageView === "home" && <HomePage />}
-      {pageView === "accounts" && <AccountsPage />}
+      {pageView === "accounts" && <AccountsPage changePage={setPageView} />}
     </>
   );
 }

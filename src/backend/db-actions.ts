@@ -28,15 +28,15 @@ export const getUserByEmail = async (email: string) => {
   return await response.json();
 };
 
-export const addUser = (user: User) => {
-  fetch(`${BASE_URL}/users`, {
+export const addUser = async (user: User) => {
+  const response = await fetch(`${BASE_URL}/users`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(user),
   });
-  // return await response.json();
+  return await response.json();
 };
 
 // Favorites

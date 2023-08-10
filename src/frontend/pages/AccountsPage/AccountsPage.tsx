@@ -2,8 +2,10 @@ import "./AccountsPage.css";
 import { useState } from "react";
 import JoinForm from "../../components/JoinForm";
 
-function AccountsPage() {
+function AccountsPage({ changePage }: { changePage: (page: string) => void }) {
   const [formView, setFormView] = useState("join");
+
+  const goToHomePage = () => changePage("home");
 
   return (
     <section className="page accounts">
@@ -21,9 +23,11 @@ function AccountsPage() {
         ))}
       </header>
 
-      {formView === "join" 
-      ? (<JoinForm />) 
-      : (<p>Login form</p>)}
+      {formView === "join" ? (
+        <JoinForm goHome={goToHomePage} />
+      ) : (
+        <p>Login form</p>
+      )}
     </section>
   );
 }

@@ -1,12 +1,14 @@
 import React, { createContext, useEffect, useState } from "react";
-import { ChildrenProps, FormValues, User } from "../../types";
-import { getAllUsers, getUserByEmail, updateFavorites } from "../db-actions";
+import { ChildrenProps, FormErrors, User } from "../../types";
+import { addUser, getAllUsers, updateFavorites } from "../db-actions";
 
 export type UsersContextType = {
   allUsers: User[];
   activeUser: User;
   userFavorites: string[];
-  addUser: (userInfo: UserInformation) => void;
+  checkActiveUser: (username: string) => boolean;
+  logoutUser: () => void;
+  addNewUser: (userInfo: UserInformation) => void;
   addToFavorites: (quoteId: string) => void;
   removeFromFavorites: (quoteId: string) => void;
 };
@@ -30,12 +32,11 @@ const defaultUser = {
 export const UsersProvider = ({ children }: ChildrenProps) => {
   const [allUsers, setAllUsers] = useState([] as User[]);
   const [activeUser, setActiveUser] = useState(defaultUser as User);
-  const { favorites } = activeUser;
+  const userFavorites = activeUser.favorites;
 
   const checkForLocalUser = () => {
     const localUser = localStorage.getItem("activeUser");
-    if (localUser) 
-      setActiveUser(JSON.parse(localUser));
+    if (localUser) setActiveUser(JSON.parse(localUser));
   };
 
   const getUsers = async () => {
@@ -48,40 +49,43 @@ export const UsersProvider = ({ children }: ChildrenProps) => {
     localStorage.setItem("activeUser", JSON.stringify(user));
   };
 
-  const addUser = async (userInfo: UserInformation) => {
+  const logoutUser = () => {
+    setActiveUser(defaultUser);
+    localStorage.removeItem("activeUser");
+  };
+
+  const addNewUser = async (userInfo: UserInformation) => {
     const { username, email, password } = userInfo;
+    const lastId = allUsers[allUsers.length - 1]?.id;
+
     const newUser: User = {
-      id: allUsers.length + 1,
+      id: lastId + 1,
       username,
       email,
       password,
       favorites: [],
     };
 
-    addNewUser(newUser)
-      .then(() => {
-        getUsers();
-        loginUser(newUser);
-        return true;
-      })
-      .catch((err) => {
-        console.log(err);
-        return false;
-      })
-  };
+    const user = await addUser(newUser);
 
-  
+    if (user) {
+      loginUser(user);
+      getUsers();
+    }
+  };
 
   const addToFavorites = (quoteId: string) => {
     console.log(quoteId);
-    const newFavorites = [...favorites, quoteId];
+    const newFavorites = [...userFavorites, quoteId];
     updateFavorites(newFavorites, activeUser.id).then((user: User) => {
       setActiveUser(user);
     });
   };
 
   const removeFromFavorites = (quoteId: string) => {
-    const newFavorites = favorites.filter((favorite) => favorite !== quoteId);
+    const newFavorites = userFavorites.filter(
+      (favorite) => favorite !== quoteId
+    );
     updateFavorites(newFavorites, activeUser.id).then((user: User) => {
       setActiveUser(user);
     });
@@ -95,7 +99,9 @@ export const UsersProvider = ({ children }: ChildrenProps) => {
   const providerValue = {
     allUsers,
     activeUser,
-    addUser,
+    userFavorites,
+    logoutUser,
+    addNewUser,
     addToFavorites,
     removeFromFavorites,
   };
