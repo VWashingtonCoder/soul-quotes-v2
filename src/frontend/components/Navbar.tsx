@@ -15,7 +15,7 @@ const navLinks = [
 
 const Navbar = ({ page, changePage }: NavbarProps) => {
   const { activeUser, logoutUser } = useUsers();
-  const { username } = activeUser;
+  const username = activeUser?.username || "";
 
   return (
     <header className="navbar flex-between-center">

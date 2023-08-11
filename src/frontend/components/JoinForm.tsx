@@ -39,37 +39,46 @@ const joinInputs = [
 ];
 
 const JoinForm = ({ goHome }: { goHome: () => void }) => {
-  const { addNewUser, checkActiveUser } = useUsers();
+  const { addNewUser } = useUsers();
   const [formValues, setFormValues] = useState(initJoinForm as FormValues);
   const [formErrors, setFormErrors] = useState({} as FormErrors);
   const [showPassword, setShowPassword] = useState(false);
+  const formValuesArray = Object.values(formValues);
 
   const updateValues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
+  const resetForm = () => {
+    setFormValues(initJoinForm);
+    setShowPassword(false);
+    setFormErrors({} as FormErrors);
+  };
+
   const submitForm = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    let errors = validateFormValues(formValues);
+    const formErrors = validateFormValues(formValues);
 
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(formErrors).length === 0) {
       const { username, email, password } = formValues;
       const userErrors = await checkForExistingUser(username, email);
 
       if (Object.keys(userErrors).length === 0) {
         const newUserInfo = { username, email, password };
-        addNewUser(newUserInfo);
-        const existingUser = await checkForExistingUser(username, email);
-        if (Object.keys(existingUser).length > 0) {
-          setFormValues(initJoinForm);
-          setShowPassword(false);
-          goHome();
-        } else errors = { general: "Something went wrong. Please try again." };
-      } else errors = userErrors;
-    }
 
-    setFormErrors(errors);
+        addNewUser(newUserInfo).then((validJoin) => {
+          if (validJoin) {
+            resetForm();
+            goHome();
+          } else {
+            setFormErrors({
+              general: "Something went wrong. Please try again.",
+            });
+          }
+        });
+      } else setFormErrors(userErrors);
+    } else setFormErrors(formErrors);
   };
 
   return (
@@ -95,7 +104,7 @@ const JoinForm = ({ goHome }: { goHome: () => void }) => {
       <button
         className="clear-btn submit-btn"
         onClick={(e) => submitForm(e)}
-        // disabled={formValuesArr.includes("")}
+        disabled={formValuesArray.includes("")}
       >
         Submit
       </button>

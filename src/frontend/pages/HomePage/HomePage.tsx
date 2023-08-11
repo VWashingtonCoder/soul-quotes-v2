@@ -6,8 +6,9 @@ import QuoteCard from "../../components/QuoteCard";
 
 function HomePage() {
   const { homeQuotes, getCategoryQuotes, changeOneHomeQuote } = useQuotes();
-  const { activeUser, addToFavorites, removeFromFavorites } = useUsers();
-  const { username, favorites } = activeUser;
+  const { activeUser, userFavorites, addToFavorites, removeFromFavorites } =
+    useUsers();
+  const { username } = activeUser;
   const [searchCategory, setSearchCategory] = useState("all");
 
   const searchQuotes = () => {
@@ -39,8 +40,8 @@ function HomePage() {
 
       <div className="quotes-box flex-between-center">
         {homeQuotes.map((quote, idx) => {
-          const isFavorite = favorites.includes(quote.quoteId);
-          const isUser = username !== "";
+          const isFavorite = userFavorites.includes(quote.quoteId);
+          const isUser = username !== undefined;
 
           return (
             <QuoteCard

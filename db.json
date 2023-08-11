@@ -19,6 +19,13 @@
         "funny-4",
         "funny-16"
       ]
+    },
+    {
+      "id": 6,
+      "username": "testUser1",
+      "email": "tu1@ex.co",
+      "password": "Password1",
+      "favorites": []
     }
   ],
   "quotes": [

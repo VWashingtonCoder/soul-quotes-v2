@@ -10,12 +10,11 @@
 }
 
 .view-btn {
-  width: 150px;
-  padding: 1rem;
-  font-size: 2rem;
-  font-weight: 700;
+  width: 100px;
+  font-size: 1.5rem;
+  font-weight: 500;
   text-transform: uppercase;
-  background-color: blue;
+  background-color: gray;
   color: whitesmoke;
   border-radius: 0.25rem;
 }
@@ -26,6 +25,10 @@
 }
 
 .view-btn.active {
+  width: 150px;
+  padding: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
   background-color: blueviolet;
 }
 
@@ -37,6 +40,10 @@
   padding: 2rem 1.5rem;
   margin: 2rem auto 0;
   width: 53%;
+}
+
+.form.login {
+  width: 43%;
 }
 
 .form-title {
@@ -61,7 +68,7 @@
 }
 
 .form-group.login {
-  grid-template-columns: 0.5fr 1.5fr 0.25fr;
+  grid-template-columns: 0.5fr 1fr 0.25fr;
 }
 
 .form-group label {
@@ -97,4 +104,3 @@
 .pw-btn .icon {
   font-size: 2.5rem;
 }
-
