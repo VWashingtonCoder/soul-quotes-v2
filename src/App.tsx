@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useUsers } from "./backend/context-hooks";
 import "./App.css";
 import Navbar from "./frontend/components/Navbar";
 import HomePage from "./frontend/pages/HomePage/HomePage";
 import AccountsPage from "./frontend/pages/AccountsPage/AccountsPage";
+import LoginNotification from "./frontend/components/LoginNotification";
 import FavoritesPage from "./frontend/pages/FavoritesPage/FavoritesPage";
 
 function App() {
-  const [pageView, setPageView] = useState("accounts");
+  const { isUserLoggedIn } = useUsers();
+  const [pageView, setPageView] = useState("favorites");
 
   return (
     <>
@@ -14,7 +17,14 @@ function App() {
 
       {pageView === "home" && <HomePage />}
       {pageView === "accounts" && <AccountsPage changePage={setPageView} />}
-      {pageView === "favorites" && <FavoritesPage />}
+
+      {!isUserLoggedIn &&
+        (pageView === "favorites" || pageView === "create") && (
+          <LoginNotification page={pageView} />
+        )
+      }
+
+      {isUserLoggedIn && pageView === "favorites" && <FavoritesPage />}
     </>
   );
 }

@@ -16,7 +16,7 @@ const initDB = {
             "username": "testUser3",
             "email": "tu3@ex.co",
             "password": "Password3",
-            "favorites": ["funny-10", "philosophy-10", "funny-1", "funny-4", "funny-16"]
+            "favorites": ["funny-10", "philosophy-10", "funny-1", "funny-4", "love-3"]
         }
     ],
     "quotes": [

@@ -3,6 +3,7 @@ import { ChildrenProps, Quote } from "../../types";
 import { getAllQuotes, getQuotesByCategory } from "../db-actions";
 
 export type QuotesContextType = {
+  allQuotes: Quote[] | [];
   homeQuotes: Quote[] | [];
   changeOneHomeQuote: (idx: number) => void;
   getCategoryQuotes: (category: string) => void;
@@ -64,6 +65,7 @@ export const QuotesProvider = ({ children }: ChildrenProps) => {
   }, []);
 
   const providerValue = {
+    allQuotes,
     homeQuotes,
     changeOneHomeQuote,
     getCategoryQuotes,

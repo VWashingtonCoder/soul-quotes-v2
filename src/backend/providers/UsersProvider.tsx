@@ -11,6 +11,7 @@ export type UsersContextType = {
   allUsers: User[];
   activeUser: User;
   userFavorites: string[];
+  isUserLoggedIn: boolean;
   loginUserFromDB: (username: string, password: string) => Promise<boolean>;
   logoutUser: () => void;
   addNewUser: (userInfo: UserInformation) => Promise<boolean>;
@@ -30,6 +31,7 @@ export const UsersProvider = ({ children }: ChildrenProps) => {
   const [allUsers, setAllUsers] = useState([] as User[]);
   const [activeUser, setActiveUser] = useState({} as User);
   const [userFavorites, setUserFavorites] = useState([] as string[]);
+  const isUserLoggedIn = activeUser?.username !== undefined;
 
   const checkForLocalUser = () => {
     const localUser = localStorage.getItem("activeUser");
@@ -114,6 +116,7 @@ export const UsersProvider = ({ children }: ChildrenProps) => {
     allUsers,
     activeUser,
     userFavorites,
+    isUserLoggedIn,
     loginUserFromDB,
     logoutUser,
     addNewUser,
