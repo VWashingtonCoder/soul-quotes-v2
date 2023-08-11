@@ -92,8 +92,7 @@ export const UsersProvider = ({ children }: ChildrenProps) => {
   const addToFavorites = (quoteId: string) => {
     const newFavorites = [...userFavorites, quoteId];
     updateFavorites(newFavorites, activeUser.id).then((user: User) => {
-      setActiveUser(user);
-      setUserFavorites(user.favorites);
+      loginUser(user);
     });
   };
 
@@ -102,8 +101,7 @@ export const UsersProvider = ({ children }: ChildrenProps) => {
       (favorite) => favorite !== quoteId
     );
     updateFavorites(newFavorites, activeUser.id).then((user: User) => {
-      setActiveUser(user);
-      setUserFavorites(user.favorites);
+      loginUser(user);
     });
   };
 
