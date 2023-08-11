@@ -3,6 +3,7 @@ import "./App.css";
 import Navbar from "./frontend/components/Navbar";
 import HomePage from "./frontend/pages/HomePage/HomePage";
 import AccountsPage from "./frontend/pages/AccountsPage/AccountsPage";
+import FavoritesPage from "./frontend/pages/FavoritesPage/FavoritesPage";
 
 function App() {
   const [pageView, setPageView] = useState("accounts");
@@ -13,6 +14,7 @@ function App() {
 
       {pageView === "home" && <HomePage />}
       {pageView === "accounts" && <AccountsPage changePage={setPageView} />}
+      {pageView === "favorites" && <FavoritesPage />}
     </>
   );
 }

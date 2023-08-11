@@ -25,7 +25,11 @@
       "username": "testUser1",
       "email": "tu1@ex.co",
       "password": "Password1",
-      "favorites": []
+      "favorites": [
+        "love-3",
+        "inspirational-2",
+        "funny-7"
+      ]
     }
   ],
   "quotes": [
