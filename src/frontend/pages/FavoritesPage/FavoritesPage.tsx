@@ -33,8 +33,7 @@ function FavoritesPage() {
   return (
     <section className="page favorites">
       <header className="favorites-header">
-        <h2 className="head-title">Favorites</h2>
-        <p className="head-subtitle">Here are all your favorite quotes!</p>
+        <h2 className="head-title">Here are all your favorite quotes!</h2>
       </header>
 
       <CategorySelect
@@ -43,35 +42,45 @@ function FavoritesPage() {
         value={filterCategory}
         onChange={(e) => setFilterCategory(e.target.value)}
       />
-
-      <table className="favorites-table">
-        <thead>
-          <tr>
-            <th className="head quote-col">Quote</th>
-            <th className="head author-col">Author</th>
-            <th className="head category-col">Category</th>
-            <th className="head icons-col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredQuotes.map((quote) => (
-            <tr key={quote.quoteId}>
-              <td className="quote-col cell">{quote.quote}</td>
-              <td className="author-col cell">{quote.author}</td>
-              <td className="category-col cell">{quote.category}</td>
-              <td className="icons-col cell">
-                <button
-                  className="favorite-btn"
-                  onClick={() => removeFromFavorites(quote.quoteId)}
-                >
-                  {/*add clear-btn class*/}
-                  <MdFavorite className="icon favorite" />
-                </button>
-              </td>
+      <div className="favorites-table-container">
+        <table className="favorites-table">
+          <thead>
+            <tr>
+              <th className="head quote col">Quote</th>
+              <th className="head author col">Author</th>
+              <th className="head category col">Category</th>
+              <th className="head icons col"></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredQuotes.length === 0 ? (
+              <tr>
+                <td className="no-favorites" colSpan={4}>
+                  You have no favorite quotes yet! Go and add some more favortie
+                  quotes to be inspired by!
+                </td>
+              </tr>
+            ) : (
+              filteredQuotes.map((quote) => (
+                <tr key={quote.quoteId}>
+                  <td className="quote col cell">{quote.quote}</td>
+                  <td className="author col cell">{quote.author}</td>
+                  <td className="category col cell">{quote.category}</td>
+                  <td className="icons col cell">
+                    <button
+                      className="favorite-btn clear-btn"
+                      onClick={() => removeFromFavorites(quote.quoteId)}
+                    >
+                      {/*add clear-btn class*/}
+                      <MdFavorite className="icon favorite" />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }

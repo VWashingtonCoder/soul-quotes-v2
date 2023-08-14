@@ -13,14 +13,19 @@
       "email": "tu3@ex.co",
       "password": "Password3",
       "favorites": [
-        "funny-10",
         "philosophy-10",
         "funny-1",
         "love-3",
         "success-6",
         "love-9",
         "success-10",
-        "inspirational-2"
+        "love-6",
+        "love-4",
+        "success-2",
+        "funny-4",
+        "philosophy-7",
+        "funny-9",
+        "philosophy-8"
       ]
     }
   ],
